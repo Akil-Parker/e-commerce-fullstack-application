@@ -8,6 +8,7 @@ import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
 import javax.persistence.EntityManager;
 import javax.persistence.metamodel.Type;
 
+//E-commerce project author [Akil.V]
 @SpringBootApplication
 public class SpringBootEcommerceApplication {
 
