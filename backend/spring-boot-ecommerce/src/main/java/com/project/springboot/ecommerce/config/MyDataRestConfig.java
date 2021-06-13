@@ -4,17 +4,21 @@ import com.project.springboot.ecommerce.entity.Country;
 import com.project.springboot.ecommerce.entity.Product;
 import com.project.springboot.ecommerce.entity.ProductCategory;
 import com.project.springboot.ecommerce.entity.State;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
 import org.springframework.http.HttpMethod;
+
+import javax.persistence.EntityManager;
+import javax.persistence.metamodel.Type;
 
 @Configuration
 public class MyDataRestConfig implements RepositoryRestConfigurer {
 
     public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
 
-        HttpMethod[] theUnsupportedActions = {HttpMethod.PUT, HttpMethod.POST, HttpMethod.DELETE};
+        HttpMethod[] theUnsupportedActions = {HttpMethod.PUT,HttpMethod.POST, HttpMethod.DELETE};
 
         // disable HTTP methods for ProductCategory: PUT, POST and DELETE
         disableHttpMethods(Product.class, config, theUnsupportedActions);
@@ -30,6 +34,14 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
                 .forDomainType(theClass)
                 .withItemExposure((metdata, httpMethods) -> httpMethods.disable(theUnsupportedActions))
                 .withCollectionExposure((metdata, httpMethods) -> httpMethods.disable(theUnsupportedActions));
+    }
+
+    @Bean
+    public RepositoryRestConfigurer repositoryRestConfigurer(EntityManager entityManager) {
+        return RepositoryRestConfigurer.withConfig(config -> {
+            config.exposeIdsFor(entityManager.getMetamodel().getEntities()
+                    .stream().map(Type::getJavaType).toArray(Class[]::new));
+        });
     }
 
 

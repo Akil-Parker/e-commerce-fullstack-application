@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import { Subject } from 'rxjs/internal/Subject';
 import { CartItem } from '../common/cart-item';
 
@@ -12,8 +13,8 @@ export class CartService {
   //Subject is a subclass of observable
   //we can use Subject to publish events in our code.
   //the event will be sent to all of the subscribers.
-  totalPrice: Subject<number> = new Subject<number>();
-  totalQuantity: Subject<number> = new Subject<number>();
+  totalPrice: Subject<number> = new BehaviorSubject<number>(0);
+  totalQuantity: Subject<number> = new BehaviorSubject<number>(0);
 
   constructor() { }
 
