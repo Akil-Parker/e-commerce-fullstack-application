@@ -19,10 +19,6 @@ public class CheckoutServiceImpl implements CheckoutService {
     @Autowired
     private CustomerRepository customerRepository;
 
-//    public CheckoutServiceImpl(CustomerRepository customerRepository) {
-//        this.customerRepository = customerRepository;
-//    }
-
     @Override
     @Transactional
     public PurchaseResponse placeOrder(Purchase purchase) {
